@@ -32,7 +32,7 @@ create trigger on_profiles_updated
 
 alter table public.profiles enable row level security;
 
--- Drop any potentially insecure select policies from the database
+-- Drop any potentially insecure select policies from the database.
 drop policy if exists "Users can read all profiles" on public.profiles;
 drop policy if exists "Authenticated users can read all profiles" on public.profiles;
 drop policy if exists "Users can read own profile" on public.profiles;
@@ -54,22 +54,23 @@ create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
--- Create a B-Tree index on lowercase of email for fast friend email searches
+-- Create a B-Tree index on lowercase of email for fast friend email searches.
 create index if not exists idx_profiles_email_lower on public.profiles (lower(email));
 
--- Create a public leaderboard view exposing only public columns.
-create or replace view public.public_leaderboard as
-  select 
-    id, 
-    name, 
-    status, 
-    avatar_base64, 
-    lifetime_fokus_tasks,
-    coalesce((progress_data ->> 'local_user_points')::integer, 0) as total_points,
-    coalesce((progress_data ->> 'local_user_fokus_minutes')::integer, 0) as fokus_minutes,
-    email
-  from public.profiles
-  where auth.uid() is not null;
+-- The leaderboard view omits email and avatar data and respects the caller's RLS.
+create view public.public_leaderboard
+with (security_invoker = true) as
+select
+  id,
+  name,
+  status,
+  lifetime_fokus_tasks,
+  coalesce((progress_data ->> 'local_user_points')::integer, 0) as total_points,
+  coalesce((progress_data ->> 'local_user_fokus_minutes')::integer, 0) as fokus_minutes
+from public.profiles
+where auth.uid() is not null;
+
+grant select on public.public_leaderboard to authenticated;
 
 -- ── Auto-create profile on sign-up ──
 
@@ -95,5 +96,4 @@ $$ language plpgsql security definer;
 
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute function public.handle_new_user();
+  after insert on auth.users;
