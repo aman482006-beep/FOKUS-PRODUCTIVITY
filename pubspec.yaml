@@ -1,0 +1,69 @@
+name: fokus
+description: A Flutter port of the Fokus app.
+publish_to: 'none'
+version: 0.0.1
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+  app_links: ^3.5.1
+  shared_preferences: ^2.1.1
+  uuid: ^4.5.1
+  flutter_riverpod: ^2.3.6
+  fl_chart: ^1.2.0
+  file_picker: ^11.0.2
+  path_provider: ^2.0.15
+  just_audio: ^0.9.38
+  just_audio_windows: ^0.2.2
+  flutter_local_notifications: ^20.1.0
+  share_plus: 12.0.2
+  window_manager: ^0.4.3
+  win32: ^5.15.0
+  ffi: ^2.1.2
+  crypto: ^3.0.3
+  get_it: ^8.0.3
+  google_fonts: ^6.1.0
+  pasteboard: ^0.5.0
+  http: ^1.6.0
+  desktop_drop: ^0.7.1
+  syncfusion_flutter_pdf: ^33.2.8
+  google_mlkit_text_recognition: ^0.15.1
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  msix: ^3.16.12
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/alarm_sounds/
+    - assets/sounds/
+    - assets/fonts/
+    - assets/sounds/noises/
+    - assets/sounds/ocean/
+    - assets/sounds/rain/
+    - assets/sounds/forest/
+    - assets/scenes/
+    - assets/scenes/forest/
+    - assets/scenes/rain/
+    - assets/scenes/library/
+    - assets/scenes/coding/
+    - assets/scenes/beach/
+    - assets/scenes/sky/
+
+msix_config:
+  display_name: Fokus App
+  publisher_display_name: aman.ja1n
+  publisher: CN=D80F7254-6141-4CC2-9D1E-17C0EA2AD9D2
+  identity_name: aman.ja1n.FokusApp
+  msix_version: 1.0.0.0
+  logo_path: assets/logo.png         # Pointing to the existing logo file
+  store: true                        # Prepares the package for Microsoft Store publishing
