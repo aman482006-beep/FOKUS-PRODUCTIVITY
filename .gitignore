@@ -7,10 +7,10 @@ build/
 .vscode/
 pubspec.lock
 
-# Environment and secrets
-.env
-.env.local
-.env.*.local
+# Environment and secrets. Keep only the checked-in templates.
+.env*
+!.env.example
+!.env.local.example
 
 # Log files
 *.log
@@ -24,6 +24,10 @@ pubspec.lock
 *.duckdb
 *.pyc
 __pycache__/
+
+# IDE metadata
+*.iml
+.idea/
 
 # Platform-specific
 android/local.properties
